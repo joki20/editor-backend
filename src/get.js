@@ -14,8 +14,8 @@ async function getDocuments() {
 
     try {
         await client.connect();
-        const database = client.db("mumin");
-        const docs = database.collection("crowd");
+        const database = client.db("editor");
+        const docs = database.collection("docs");
         const cursor = docs.find();
         result = await cursor.toArray();
         console.log(result);

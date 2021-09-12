@@ -14,8 +14,8 @@ async function updateDocument(body) {
     // body.id, body.title, body.content
     try {
         await client.connect();
-        const db = client.db("mumin");
-        const docs = db.collection("crowd");
+        const db = client.db("editor");
+        const docs = db.collection("docs");
         // find document by id
         const filter = { _id: ObjectId(body.id) };
         // // create new document if no match
