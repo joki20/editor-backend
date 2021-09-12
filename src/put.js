@@ -1,5 +1,5 @@
 /**
- * Update a document in collection
+ * Update a document in collection, by creating a new
  */
 "use strict";
 
@@ -10,25 +10,37 @@ const database = require("../db/database.js"); // database.uri
 const client = new MongoClient(database.uri);
 
 // Function to update a document
-async function updateDocument(title, content) {
+async function updateDocument(body) {
+    // body.id, body.title, body.content
     try {
         await client.connect();
-        const database = client.db("editor");
-        const docs = database.collection("docs");
+        const db = client.db("mumin");
+        const docs = db.collection("crowd");
         // find document by id
-        const filter = { _id: ObjectId(body["_id"]) };
-        // create new document if filter doesn't exist
+        const filter = { _id: ObjectId(body.id) };
+        console.log("FILTER");
+        console.log(filter);
+        // // create new document if no match
         const options = { upsert: true };
-        // create new content
+        // create temporary content
         const updateDocument = {
-            title: body.title,
-            content: body.content,
+            $set: {
+                // otherwise wont wwork in updateOne()
+                title: body.title,
+                content: body.content,
+            },
         };
-        // replace old document with new content
-        const result = await db.collection.updateOne(filter, updateDocument);
-        console.log(
-            `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
-        );
+        console.log("UPDATE DOCUMENT");
+        console.log(updateDocument);
+        // replace old document with new content if match
+        const result = await docs.updateOne(filter, updateDocument);
+        if (result.matchedCount == 0) {
+            console.log("No match, so no document updated");
+        } else {
+            console.log(
+                `${result.matchedCount} document(s) matched filter, updated ${result.modifiedCount} document(s)`
+            );
+        }
     } finally {
         await client.close();
     }
