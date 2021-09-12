@@ -15,3 +15,11 @@ Backend API with Express, Node.js and MongoDB Atlas.
 3. npm install
 4. npm start
 5. Create config.json in db folder with properties "username" and "password" for MongoDB Atlas
+
+## Routes
+
+-   List all documents with localhost:1337/list
+-   Create new document with localhost:1337/create/customTitleName/customContent
+-   Update document with localhost:1337/update/customId/customTitle/customContent
+
+customId, customTitle and customContent is free of choice, but customId has to be one of existing 24 char id already inside list.
