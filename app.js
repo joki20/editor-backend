@@ -1,30 +1,20 @@
-const bodyParser = require("body-parser"); // use POST, PUT and DELETE
-const cors = require("cors");
 const express = require("express");
+const bodyParser = require("body-parser");
 const morgan = require("morgan");
-
+const cors = require("cors");
 const app = express();
-// process is global variable containing environmental variable PORT
-// if process.env.PORT is set, then assign, otherwise assign 1337
 const port = process.env.PORT || 1337;
 
-// parse body
+const index = require("./routes/index");
+const list = require("./routes/list");
+const create = require("./routes/create");
+const update = require("./routes/update");
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
-const index = require("./routes/index");
-const hello = require("./routes/hello");
-
-// allows different clients from other domains to access our API
 app.use(cors());
 
-// don't show the log when it is test
-if (process.env.NODE_ENV !== "test") {
-    // use morgan to log at command line
-    app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
-}
-
-// This is middleware which is called for ALL routes.
+// This is middleware called for all routes.
 // Middleware takes three parameters.
 app.use((req, res, next) => {
     console.log(req.method);
@@ -32,37 +22,26 @@ app.use((req, res, next) => {
     next();
 });
 
+// hide log for tests
+if (process.env.NODE_ENV !== "test") {
+    // use morgan to log at command line
+    app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
+}
+
 // ROUTES
 app.use("/", index);
-app.use("/hello", hello);
+app.use("/list", list);
+app.use("/create", create);
+app.use("/update", update);
 
-app.post("/user", (req, res) => {
-    res.status(201).json({
-        data: {
-            msg: "Got a POST request, sending back 201 Created",
-        },
-    });
-});
-
-app.put("/user", (req, res) => {
-    // PUT requests should return 204 No Content
-    res.status(204).send();
-});
-
-app.delete("/user", (req, res) => {
-    // DELETE requests should return 204 No Content
-    res.status(204).send();
-});
-
-// Add routes for 404 and error handling
-// Catch 404 and forward to error handler
-// Put this last
+// Error handler
 app.use((req, res, next) => {
     var err = new Error("Not Found");
     err.status = 404;
-    next(err); // send to our own error handler below
+    next(err);
 });
 
+// Personalised error handler
 app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
@@ -78,6 +57,5 @@ app.use((err, req, res, next) => {
         ],
     });
 });
-
 // Start up server
 app.listen(port, () => console.log(`Example API listening on port ${port}!`));
