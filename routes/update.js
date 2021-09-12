@@ -14,7 +14,7 @@ router.post("/:id/:title/:content", async function (req, res, next) {
     await put.updateDocument(body); // containing posted params
     res.status(204).json({
         data: {
-            msg: "Got a POST request, sending back 201 Created",
+            msg: "Got a POST request, sending back 204 Updated",
         },
     });
 });

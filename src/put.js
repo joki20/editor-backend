@@ -18,8 +18,6 @@ async function updateDocument(body) {
         const docs = db.collection("crowd");
         // find document by id
         const filter = { _id: ObjectId(body.id) };
-        console.log("FILTER");
-        console.log(filter);
         // // create new document if no match
         const options = { upsert: true };
         // create temporary content
@@ -30,8 +28,7 @@ async function updateDocument(body) {
                 content: body.content,
             },
         };
-        console.log("UPDATE DOCUMENT");
-        console.log(updateDocument);
+
         // replace old document with new content if match
         const result = await docs.updateOne(filter, updateDocument);
         if (result.matchedCount == 0) {

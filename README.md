@@ -2,11 +2,11 @@
 
 Backend API with Express, Node.js and MongoDB Atlas.
 
-## Document structure
+## Folder structure
 
 -   db: database connection configurations
 -   src: CRUD operations GET, POST, UPDATE
--   routes: route files
+-   routes: route files, activated by app.use() function in app.js
 
 ## Installation
 

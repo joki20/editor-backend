@@ -11,7 +11,7 @@ router.post("/:title/:content", async function (req, res, next) {
 
     res.status(201).json({
         data: {
-            msg: "Got a POST request",
+            msg: "Got a POST request, sending back 201 Created",
         },
     });
 });

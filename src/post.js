@@ -12,8 +12,8 @@ const client = new MongoClient(database.uri);
 async function createDocument(title, content) {
     try {
         await client.connect();
-        const database = client.db("editor");
-        const docs = database.collection("docs");
+        const database = client.db("mumin");
+        const docs = database.collection("crowd");
         // create a document to insert
         const doc = {
             title: title,
