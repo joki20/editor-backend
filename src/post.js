@@ -9,15 +9,15 @@ const database = require("../db/database.js"); // database.uri
 const client = new MongoClient(database.uri);
 
 // Function to post a document
-async function createDocument(title, content) {
+async function createDocument(body) {
     try {
         await client.connect();
         const database = client.db("editor");
         const docs = database.collection("docs");
         // create a document to insert
         const doc = {
-            title: title,
-            content: content,
+            title: body.title,
+            content: body.content,
         };
         const result = await docs.insertOne(doc);
         console.log(
