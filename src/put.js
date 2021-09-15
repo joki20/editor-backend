@@ -10,14 +10,14 @@ const database = require("../db/database.js"); // database.uri
 const client = new MongoClient(database.uri);
 
 // Function to update a document
-async function updateDocument(body) {
+async function updateDocument(id, body) {
     // body.id, body.title, body.content
     try {
         await client.connect();
         const db = client.db("editor");
         const docs = db.collection("docs");
         // find document by id
-        const filter = { _id: ObjectId(body.id) };
+        const filter = { _id: ObjectId(id) };
         // // create new document if no match
         const options = { upsert: true };
         // create temporary content
