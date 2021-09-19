@@ -5,14 +5,15 @@ let collectionName;
 
 // get config.json if not travis
 try {
-    let config = require("./config.json");
+    var config = require("./config.json");
 } catch (error) {
     console.error(error);
 }
 
 // if on travis, get login details from travis, otherwise get from config.json
-let username = process.env.travisUsername || config.username;
-let password = process.env.travisPassword || config.password;
+// var makes it available for functions
+var username = process.env.travisUsername || config.username;
+var password = process.env.travisPassword || config.password;
 
 const database = {
     getDb: async function getDb() {
