@@ -4,8 +4,10 @@ let myDb;
 let collectionName;
 
 // get config.json if not travis
+let config;
+
 try {
-    var config = require("./config.json");
+    config = require("./config.json");
 } catch (error) {
     console.error(error);
 }
