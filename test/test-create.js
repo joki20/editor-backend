@@ -37,6 +37,8 @@ describe('POST Request', () => {
             content: "newContent2"
         }
         await create.oneDocument(body2);
+
+        done();
         
     });
 
@@ -46,8 +48,6 @@ describe('POST Request', () => {
         before('get all entries', async function () {
             // get all entries
             result = await databaseMethods.get();
-            console.log("THIS IS THE CURRENT DB")
-            console.log(result);
         });
 
         describe('GET / list', () => {
