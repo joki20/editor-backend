@@ -6,10 +6,8 @@ let collectionName;
 // get config.json if not travis
 var config;
 
-try {
+if (!process.env.TRAVIS_USERNAME) {
     config = require("./config.json");
-} catch (error) {
-    console.log(error);
 }
 
 // if on travis, get login details from travis, otherwise get from config.json
