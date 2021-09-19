@@ -1,6 +1,6 @@
 {
   "name": "editor-backend",
-  "version": "2.1.84",
+  "version": "2.1.85",
   "description": "",
   "main": "app.js",
   "scripts": {
