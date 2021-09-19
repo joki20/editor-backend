@@ -14,8 +14,8 @@ try {
 
 // if on travis, get login details from travis, otherwise get from config.json
 // var makes it available for functions
-var username = process.env.travisUsername || config.username;
-var password = process.env.travisPassword || config.password;
+var username = process.env.TRAVIS_USERNAME || config.username;
+var password = process.env.TRAVIS_PASSWORD || config.password;
 
 const database = {
     getDb: async function getDb() {
