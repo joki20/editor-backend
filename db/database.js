@@ -4,11 +4,15 @@ let myDb;
 // when document is inserted, collection name is created automatically
 let collectionName;
 
+// if on travis, get login details from travis, otherwise get from config.json
+let username = process.env.travisUsername || config.username;
+let password = process.env.travisPassword || config.password;
+
 const database = {
     getDb: async function getDb() {
         // connect to real database
         if (process.env.NODE_ENV !== "test") {
-            dsn = `mongodb+srv://${config.username}:${config.password}@editor.obxmw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+            dsn = `mongodb+srv://${username}:${password}@editor.obxmw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
             myDb = "editor";
             collectionName = "docs";
         }
