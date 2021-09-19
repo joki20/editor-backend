@@ -4,12 +4,12 @@ let myDb;
 let collectionName;
 
 // get config.json if not travis
-let config;
+var config;
 
 try {
     config = require("./config.json");
 } catch (error) {
-    console.error(error);
+    console.log(error);
 }
 
 // if on travis, get login details from travis, otherwise get from config.json
