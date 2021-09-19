@@ -1,24 +1,30 @@
 const mongo = require("mongodb").MongoClient;
 const config = require("./config.json");
-const collectionName = "editor";
-let uri = `mongodb+srv://${config.username}:${config.password}@${collectionName}.obxmw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-// let uri = `mongodb://localhost:27017/${collectionName}`;
+let myDb;
+// when document is inserted, collection name is created automatically
+let collectionName;
 
 const database = {
     getDb: async function getDb() {
-        let dsn = uri;
-
+        // connect to real database
+        if (process.env.NODE_ENV !== "test") {
+            dsn = `mongodb+srv://${config.username}:${config.password}@editor.obxmw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+            myDb = "editor";
+            collectionName = "docs";
+        }
+        // connect to test database
         if (process.env.NODE_ENV === "test") {
             dsn = "mongodb://localhost:27017/test";
+            myDb = 'test';
+            collectionName = "docstest";
+            // test: db.docstest.find() returns data in mongosh
         }
-
-        const client = await mongo.connect(dsn, {
+        var client = await mongo.connect(dsn, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        const db = await client.db();
-        const collection = await db.collection(collectionName);
-
+        const db = await client.db(myDb);
+        const collection = db.collection(collectionName);
         return {
             db: db,
             collection: collection,
@@ -27,8 +33,4 @@ const database = {
     },
 };
 
-module.exports = {
-    collectionName,
-    database,
-    uri,
-};
+module.exports = database;

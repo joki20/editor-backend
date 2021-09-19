@@ -7,7 +7,7 @@ const post = require("../src/post.js");
 // Return a JSON object with list of all documents within the collection.
 router.post("/", async function (req, res, next) {
     // route parameters title and content used to create document
-    await post.createDocument(req.body);
+    await post.oneDocument(req.body);
 
     res.status(201).json({
         data: {

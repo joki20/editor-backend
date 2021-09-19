@@ -1,33 +1,29 @@
 /**
  * Post a document to collection
  */
-"use strict";
-
-// MongoDB
-const MongoClient = require("mongodb").MongoClient;
 const database = require("../db/database.js"); // database.uri
-const client = new MongoClient(database.uri);
 
-// Function to post a document
-async function createDocument(body) {
-    try {
-        await client.connect();
-        const database = client.db("editor");
-        const docs = database.collection("docs");
-        // create a document to insert
-        const doc = {
-            title: body.title,
-            content: body.content,
-        };
-        const result = await docs.insertOne(doc);
-        console.log(
-            `A document was inserted with the _id: ${result.insertedId}`
-        );
-    } finally {
-        await client.close();
+const create = {
+    oneDocument: async function run(body) {
+        let db;
+
+        try {
+            // connsct to db
+            db = await database.getDb();
+            // create a document for insertion
+            const doc = {
+                title: body.title,
+                content: body.content,
+            };
+            // insert document and create collection db.collection
+            const result = await db.collection.insertOne(doc);
+            console.log(
+                `A document was inserted with the _id: ${result.insertedId}`
+            );
+        } finally {
+            await db.client.close();
+        }
     }
 }
 
-module.exports = {
-    createDocument,
-};
+module.exports = create;

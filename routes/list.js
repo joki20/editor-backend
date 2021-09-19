@@ -5,7 +5,7 @@ const get = require("../src/get.js");
 
 // Return a JSON object with list of all documents within the collection.
 router.get("/", async function (req, res, next) {
-    let result = await get.getDocuments();
+    let result = await get.all();
 
     const data = {
         data: result,
@@ -14,8 +14,11 @@ router.get("/", async function (req, res, next) {
     console.log(data);
     // browser json
     res.json(data);
-    // status
-    res.status(200).send();
+    // status 200 (OK) returned
 });
 
 module.exports = router;
+
+
+
+

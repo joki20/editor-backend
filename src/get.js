@@ -1,35 +1,24 @@
 /**
- * List all documents in db.
+ * Get collections
  */
-"use strict";
+ const database = require("../db/database.js");
 
-// MongoDB
-const MongoClient = require("mongodb").MongoClient;
-const database = require("../db/database.js"); // database.uri
-const client = new MongoClient(database.uri);
+ const get = {
+     all: async function run() {
+         let db;
+         let result;
 
-// Function to get all documents
-async function getDocuments() {
-    let result;
-
-    try {
-        await client.connect();
-        const database = client.db("editor");
-        const docs = database.collection("docs");
-        const cursor = docs.find();
-        result = await cursor.toArray();
-        console.log(result);
-
-        // print a message if no documents were found
-        if ((await cursor.count()) === 0) {
-            console.log("No documents found!");
-        }
-    } finally {
-        await client.close();
-        return result;
-    }
-}
-
-module.exports = {
-    getDocuments,
-};
+         try {
+             // connect to db
+             db = await database.getDb();
+             // get content
+             result = await db.collection.find({}).toArray();
+         }
+         finally {
+             await db.client.close()
+             return result
+         }
+     }
+ }
+ 
+module.exports = get;
