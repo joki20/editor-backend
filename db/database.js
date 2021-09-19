@@ -1,8 +1,14 @@
 const mongo = require("mongodb").MongoClient;
-const config = require("./config.json");
 let myDb;
 // when document is inserted, collection name is created automatically
 let collectionName;
+
+// get config.json if not travis
+try {
+    let config = require("./config.json");
+} catch (error) {
+    console.error(error);
+}
 
 // if on travis, get login details from travis, otherwise get from config.json
 let username = process.env.travisUsername || config.username;
