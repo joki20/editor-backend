@@ -37,8 +37,6 @@ describe('POST Request', () => {
             content: "newContent2"
         }
         await create.oneDocument(body2);
-
-        resolve();
         
     });
 
