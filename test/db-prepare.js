@@ -43,8 +43,7 @@ const databaseMethods = {
         let res = await db.collection.find({}).toArray();
 
         return res;
-    }
-
+    },
 }
 
 module.exports = databaseMethods;
