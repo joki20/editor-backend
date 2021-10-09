@@ -2,9 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const app = express();
 const port = process.env.PORT || 1337;
-
+// Server and socket
+const app = express();
+const httpServer = require("http").createServer(app);
+// import routes
 const index = require("./routes/index");
 const list = require("./routes/list");
 const create = require("./routes/create");
@@ -13,6 +15,38 @@ const update = require("./routes/update");
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
+
+// socket receives connections from port 3000
+// (local server is occupied by port 1337)
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "https://www.student.bth.se",
+    methods: ["GET", "POST"]
+  }
+});
+
+// on connection
+io.sockets.on('connection', function (socket) {
+    // console.log("id: " + socket.id); // random socket id
+
+    // create event received from frontend, where room is the same as doc object
+    socket.on('create', function (room) {
+        // console.log(room)
+        // creates room connected to this specific socket id and document
+        socket.join(room._id);
+        
+        // room.html will be used in client only, to update content of all sockets
+        socket.to(room._id).emit("doc", room);
+    });
+
+    // console.log("INNAN socket.to")
+    // console.log(socket)
+
+    // emit data to all clients in this room and ...
+    // send all clients to room with this document id.
+
+});
+
 
 // This is middleware called for all routes.
 // Middleware takes three parameters.
@@ -57,7 +91,7 @@ app.use((err, req, res, next) => {
         ],
     });
 });
-// Start up server
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// Start up server using created httpServer för socket.io
+const server = httpServer.listen(port, () => console.log(`Listening on port ${port}!`));
 // export server for testing purposes
 module.exports = server;
