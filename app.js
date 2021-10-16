@@ -8,9 +8,18 @@ const app = express();
 const httpServer = require("http").createServer(app);
 // import routes
 const index = require("./routes/index");
-const list = require("./routes/list");
+const users = require("./routes/users");
 const create = require("./routes/create");
 const update = require("./routes/update");
+// auth
+const register = require("./routes/register");
+const login = require("./routes/login");
+const allow_user = require("./routes/allow_user");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs'); // hash password
+
+// NÄR ALLT FUNGERAR ORDENTLIGT, GLÖM INTE ÄNDRA
+// * db / database.js FRÅN docs - test till docs
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -19,7 +28,8 @@ app.use(cors());
 // socket receives connections from port 3000
 // (local server is occupied by port 1337)
 const io = require("socket.io")(httpServer, {
-  cors: {
+    cors: {
+    // origin: "http://localhost:3000",
     origin: "https://www.student.bth.se",
     methods: ["GET", "POST"]
   }
@@ -64,9 +74,12 @@ if (process.env.NODE_ENV !== "test") {
 
 // ROUTES
 app.use("/", index);
-app.use("/list", list);
+app.use("/users", users);
 app.use("/create", create);
 app.use("/update", update);
+app.use("/register", register);
+app.use("/login", login);
+app.use("/allow_user", allow_user);
 
 // Error handler
 app.use((req, res, next) => {

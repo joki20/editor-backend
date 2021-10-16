@@ -13,6 +13,8 @@
              db = await database.getDb();
              // get content
              result = await db.collection.find({}).toArray();
+             console.log("INSIDE BACKEND src/get.js")
+             console.log(result)
          }
          finally {
              await db.client.close()

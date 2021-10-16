@@ -1,0 +1,23 @@
+{
+	"_id": {
+		"$oid": "61631746cab3d5fde969ba7d"
+	},
+	"Users": [{
+		"email": "joki20@student.bth.se",
+		"password": "$2a$09$tihtbxPFSSFBOJ7mn20gyuAQYoweN81zVdM3z1odP44drKhgpbi76",
+		"docs": [{
+			"id": "616315285ebfcb13bacec332",
+			"title": "Den lille pige med svovlstikkerne",
+			"content": "Der var engang",
+			"allowed_users": ["joki20@student.bth.se"]
+		}]
+	}, {
+		"email": "abc@student.bth.se",
+		"password": "$2a$09$3mKfFqXD0lgLyOeBKFqk4uzknzu7rr3EzNU/.V9XCervJ7c0A8Mei",
+		"docs": []
+	}, {
+		"email": "emil@student.bth.se",
+		"password": "$2a$09$ik.zN7Egd7g2bKe4nj4GZu3BsrOA7I.Y.UnToHLKuJyunHHsl7Sfu",
+		"docs": []
+	}]
+}
