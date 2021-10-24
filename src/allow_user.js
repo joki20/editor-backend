@@ -7,6 +7,10 @@ const ObjectId = require("mongodb").ObjectId;
 const allow = {
     allow_user: async function run(email, loggedInUser, docId) {
         let db;
+        // user object with key email (adjusted for graphql query of docs)
+        let userObject = {
+            email: email
+        }
  
         try {
             // connect to db
@@ -18,7 +22,7 @@ const allow = {
             // push into array allowed_users with matching id
             const insertAllowedUser = {
                 $push: {
-                    "Users.$[arr1].docs.$[arr2].allowed_users": email
+                    "Users.$[arr1].docs.$[arr2].allowed_users": userObject
                 }
             };
             const specifyFilters = {

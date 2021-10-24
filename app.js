@@ -3,23 +3,34 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const port = process.env.PORT || 1337;
-// Server and socket
+
+// SERVER AND SOCKET
 const app = express();
 const httpServer = require("http").createServer(app);
-// import routes
+
+// ROUTES
 const index = require("./routes/index");
 const users = require("./routes/users");
 const create = require("./routes/create");
 const update = require("./routes/update");
-// auth
+
+// AUTH
 const register = require("./routes/register");
 const login = require("./routes/login");
 const allow_user = require("./routes/allow_user");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); // hash password
 
-// NÄR ALLT FUNGERAR ORDENTLIGT, GLÖM INTE ÄNDRA
-// * db / database.js FRÅN docs - test till docs
+// GRAPHQL
+const { graphqlHTTP } = require('express-graphql');
+// graphql schema provider
+const { GraphQLSchema } = require("graphql");
+// root query object
+const RootQueryType = require("./graphql/root.js");
+// graphiql: set true if localhost, false if production
+const visual = true;
+
+// vid deployment för kmom05: ändra * db / database.js FRÅN docs - test till docs
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -72,6 +83,11 @@ if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
 }
 
+// CREATE SCHEMA, QUERY RootQuery object inside graphql/root.js
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
 // ROUTES
 app.use("/", index);
 app.use("/users", users);
@@ -80,6 +96,11 @@ app.use("/update", update);
 app.use("/register", register);
 app.use("/login", login);
 app.use("/allow_user", allow_user);
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    // true if localhost, false otherwise (when production needs to be false)
+    graphiql: visual,
+}));
 
 // Error handler
 app.use((req, res, next) => {

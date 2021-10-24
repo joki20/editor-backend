@@ -20,6 +20,14 @@
              await db.client.close()
              return result
          }
+     },
+
+     users: async function run() {
+         let allData = await get.all();
+         let usersArray = allData[0].Users
+         console.log(usersArray);
+
+         return usersArray;
      }
  }
  
