@@ -3,11 +3,12 @@
  */
 const ObjectId = require("mongodb").ObjectId;
 const database = require("../db/database.js"); // database.uri
+const config = require("../db/config.json"); // database.uri
 
 // Functions to update a document
 const update = {
     // body.id, body.title, body.content
-    updateDocument: async function run(docOwner, docId, content) {
+    updateDocument: async function run(docOwner, docId, content, type) {
         let db;
 
         try {
@@ -20,8 +21,9 @@ const update = {
             // create temporary content
             const updateDocument = {
                 $set: {
-                    // $set, otherwise wont wwork in updateOne()
-                    "Users.$[arr1].docs.$[arr2].content": content
+                    // $set, otherwise wont work in updateOne()
+                    "Users.$[arr1].docs.$[arr2].content": content,
+                    "Users.$[arr1].docs.$[arr2].type": type
                 },
             };
             const specifyFilters = {

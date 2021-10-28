@@ -13,6 +13,7 @@ const index = require("./routes/index");
 const users = require("./routes/users");
 const create = require("./routes/create");
 const update = require("./routes/update");
+const sendmail = require("./routes/sendmail");
 
 // AUTH
 const register = require("./routes/register");
@@ -36,7 +37,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
 
-// socket receives connections from port 3000
+// socket receives connections from port 3000 or student.bth.se
 // (local server is occupied by port 1337)
 const io = require("socket.io")(httpServer, {
     cors: {
@@ -50,7 +51,7 @@ const io = require("socket.io")(httpServer, {
 io.sockets.on('connection', function (socket) {
     // console.log("id: " + socket.id); // random socket id
 
-    // create event received from frontend, where room is the same as doc object
+    // create event received from frontend, where room is the same as doc object from frontend
     socket.on('create', function (room) {
         // console.log(room)
         // creates room connected to this specific socket id and document
@@ -59,13 +60,6 @@ io.sockets.on('connection', function (socket) {
         // room.html will be used in client only, to update content of all sockets
         socket.to(room._id).emit("doc", room);
     });
-
-    // console.log("INNAN socket.to")
-    // console.log(socket)
-
-    // emit data to all clients in this room and ...
-    // send all clients to room with this document id.
-
 });
 
 
@@ -101,6 +95,7 @@ app.use('/graphql', graphqlHTTP({
     // true if localhost, false otherwise (when production needs to be false)
     graphiql: visual,
 }));
+app.use("/sendmail", sendmail);
 
 // Error handler
 app.use((req, res, next) => {

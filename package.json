@@ -5,13 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "nyc --all --reporter=html --reporter=text mocha --reporter=dot test/**/*.js --exit",
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "watch": "nodemon app.js",
     "production": "cross-env NODE_ENV='production' node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.5.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",

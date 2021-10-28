@@ -8,7 +8,7 @@ var post = require("../src/post.js");
 router.post("/",
     // if validToken not error, proceed next to post.oneDocument
     (req, res, next) => auth.validToken(req, res, next),
-    // contains req.body.email, req.body.title, req.body.content
+    // contains req.body.email, req.body.title, req.body.content, req.body.type
     (req, res) => post.oneDocument(req.body)
 )
 

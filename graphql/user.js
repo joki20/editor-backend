@@ -43,6 +43,9 @@ const DocsType = new GraphQLObjectType({
         content: {
             type: GraphQLString
         },
+        type: {
+            type: GraphQLString
+        },
         allowed_users: {
             type: GraphQLList(Allowed_UsersType),
         }

@@ -31,6 +31,7 @@
                         id: docId,
                         title: body.title,
                         content: body.content,
+                        type: body.type,
                         // allowed user is object with key 'email', adjusted for graphql query
                         allowed_users: [
                             { email: `${body.email}` }
