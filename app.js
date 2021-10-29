@@ -29,7 +29,7 @@ const { GraphQLSchema } = require("graphql");
 // root query object
 const RootQueryType = require("./graphql/root.js");
 // graphiql: set true if localhost, false if production
-const visual = true;
+const visual = false;
 
 // vid deployment för kmom05: ändra * db / database.js FRÅN docs - test till docs
 
@@ -41,11 +41,10 @@ app.use(cors());
 // (local server is occupied by port 1337)
 const io = require("socket.io")(httpServer, {
     cors: {
-    // origin: "http://localhost:3000",
-    origin: "https://www.student.bth.se",
-    methods: ["GET", "POST"]
-  }
-});
+      origin: "https://www.student.bth.se",
+      methods: ["GET", "POST"]
+    }
+  });
 
 // on connection
 io.sockets.on('connection', function (socket) {
